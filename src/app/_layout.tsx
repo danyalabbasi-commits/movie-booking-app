@@ -1,18 +1,42 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import { BookingProvider } from '../context/BookingContext';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
-
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <BookingProvider>
+      <Tabs screenOptions={{ 
+        tabBarStyle: { backgroundColor: '#1f1f1f', borderTopColor: '#333' },
+        tabBarActiveTintColor: '#007AFF',
+        headerStyle: { backgroundColor: '#1f1f1f' },
+        headerTintColor: '#fff',
+      }}>
+        <Tabs.Screen 
+          name="index" 
+          options={{ 
+            title: 'Movies', 
+            tabBarIcon: ({ color, size }) => <Ionicons name="film" size={size} colour={color} /> 
+          }} 
+        />
+        <Tabs.Screen 
+          name="bookings" 
+          options={{ 
+            title: 'My Bookings', 
+            tabBarIcon: ({ color, size }) => <Ionicons name="ticket" size={size} colour={color} /> 
+          }} 
+        />
+        <Tabs.Screen 
+          name="profile" 
+          options={{ 
+            title: 'Profile', 
+            tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} colour={color} /> 
+          }} 
+        />
+        <Tabs.Screen 
+          name="details/[id]" 
+          options={{ href: null, headerTitle: 'Book Tickets' }} 
+        />
+      </Tabs>
+    </BookingProvider>
   );
 }
